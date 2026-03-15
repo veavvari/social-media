@@ -11,7 +11,13 @@ dotenv.config();
 import cors from 'cors';   
 import multer from 'multer';
 
- 
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,               
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 
 //middleware
 app.use((req, res, next )=>{
@@ -20,10 +26,6 @@ app.use((req, res, next )=>{
 });
 
 app.use(express.json())
-
-app.use(cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-}));
 
 app.use(cookieParser())
 

@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
 
@@ -10,9 +10,14 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   api:
     build: ./api
@@ -23,6 +28,7 @@ services:
       DB_USER: user
       DB_PASSWORD: password
       DB_NAME: socialmedia
+      CLIENT_URL: http://localhost:3000
     depends_on:
       - db
 
