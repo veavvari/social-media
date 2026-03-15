@@ -27,9 +27,10 @@ services:
       - db
 
   client:
-    build: ./client
-    args:
-      VITE_API_URL: http://localhost:3360/api
+    build: 
+      context: ./client
+      args:
+       VITE_API_URL: http://localhost:3360/api
     ports:
       - "3000:80"
     depends_on:
