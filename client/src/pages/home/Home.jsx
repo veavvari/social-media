@@ -1,7 +1,7 @@
 import "./home.scss"
 import Stories from "../../components/stories/Stories"
 import Share from "../../components/share/Share"
-import Posts from "../../components/posts/posts"
+import Posts from "../../components/posts/Posts"
 
 const Home = () => {
   return (
