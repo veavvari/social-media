@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: socialmedia
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  api:
+    build: ./api
+    ports:
+      - "3360:3360"
+    environment:
+      DB_HOST: db
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: socialmedia
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    args:
+      VITE_API_URL: http://localhost:3360/api
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  db_data:

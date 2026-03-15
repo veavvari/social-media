@@ -5,6 +5,8 @@ import authRoutes from './routes/auth.js';
 import cookieParser from 'cookie-parser';
 import postRoutes from './routes/posts.js';
 import commentRoutes from './routes/comments.js';
+import dotenv from 'dotenv';
+dotenv.config();
 // import likeRoutes from './routes/likes.js';
 import cors from 'cors';   
 import multer from 'multer';
@@ -20,14 +22,14 @@ app.use((req, res, next )=>{
 app.use(express.json())
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
 }));
 
 app.use(cookieParser())
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, '../client/public/uploads');
+      cb(null, '/app/uploads');
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname);
@@ -47,7 +49,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 // app.use('/api/likes', likeRoutes);
 
-app.listen(3360,"localhost", ()=>{
+app.listen(3360, ()=>{
     console.log('API is running on port 3360');
 })
 
